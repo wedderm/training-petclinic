@@ -1,0 +1,12 @@
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        extends="/com/haulmont/cuba/web/app/main/main-screen.xml">
+    <layout>
+        <cssLayout id="horizontalWrap">
+            <workArea id="workArea">
+                <initialLayout>
+                    <label value="msg://application.welcomeLabel" align="MIDDLE_CENTER"/>
+                </initialLayout>
+            </workArea>
+        </cssLayout>
+    </layout>
+</window>
