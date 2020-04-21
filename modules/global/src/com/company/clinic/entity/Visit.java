@@ -2,7 +2,10 @@ package com.company.clinic.entity;
 
 import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.entity.annotation.Listeners;
+import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -10,9 +13,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@PublishEntityChangedEvents
 @NamePattern("%s %s %s|pet,date,description")
 @Table(name = "CLINIC_VISIT")
 @Entity(name = "clinic_Visit")
+@Listeners("clinic_VisitEntityListener")
 public class Visit extends StandardEntity {
     private static final long serialVersionUID = -8254124810105648524L;
 
@@ -20,6 +25,9 @@ public class Visit extends StandardEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "PET_ID")
     protected Pet pet;
+
+    @Column(name = "NUMBER_")
+    protected Long number;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -48,6 +56,14 @@ public class Visit extends StandardEntity {
             inverseJoinColumns = @JoinColumn(name = "CONSUMABLE_ID"))
     @ManyToMany
     protected List<Consumable> consumables;
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
+    }
 
     public List<Consumable> getConsumables() {
         return consumables;
@@ -103,5 +119,10 @@ public class Visit extends StandardEntity {
 
     public void setPet(Pet pet) {
         this.pet = pet;
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        amount = BigDecimal.ZERO;
     }
 }
