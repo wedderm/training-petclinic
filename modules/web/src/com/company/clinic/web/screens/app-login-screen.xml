@@ -83,7 +83,7 @@
             <image id="backgroundImage"
                    scaleMode="COVER"
                    stylename="c-login-background">
-                <relativePath path="VAADIN/brand-login-screen/background.svg"/>
+                <relativePath path="VAADIN/brand-login-screen/petclinic_bg.jpg" mimeType="image/jpeg"/>
             </image>
         </cssLayout>
     </layout>
