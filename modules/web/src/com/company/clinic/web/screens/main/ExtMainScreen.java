@@ -3,22 +3,19 @@ package com.company.clinic.web.screens.main;
 import com.company.clinic.core.VisitService;
 import com.company.clinic.entity.Pet;
 import com.company.clinic.entity.Visit;
-import com.haulmont.cuba.gui.Fragments;
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
 import com.haulmont.cuba.gui.components.Calendar;
-import com.haulmont.cuba.gui.components.DateField;
-import com.haulmont.cuba.gui.components.LookupField;
 import com.haulmont.cuba.gui.model.CollectionLoader;
+import com.haulmont.cuba.gui.model.DataContext;
+import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.cuba.web.app.main.MainScreen;
 
 import javax.inject.Inject;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 
 @UiController("extMainScreen")
@@ -32,26 +29,40 @@ public class ExtMainScreen extends MainScreen {
     @Inject
     private CollectionLoader<Visit> visitsDl;
     @Inject
-    private LookupField<Pet> petSelector;
-    @Inject
-    private DateField<LocalDateTime> dateSelector;
-    @Inject
     private UserSession userSession;
-    @Inject
-    private VisitService visitService;
     @Inject
     private ScreenBuilders screenBuilders;
     @Inject
-    private Fragments fragments;
+    private DataManager dataManager;
+    @Inject
+    private DataContext dataContext;
+    @Inject
+    private VisitService visitService;
+    @Inject
+    private InstanceContainer<Visit> visitDc;
+
+    @Subscribe
+    public void onBeforeShow(BeforeShowEvent event) {
+        initNewVisit();
+    }
 
     @Subscribe("schedule")
     public void onSchedule(Action.ActionPerformedEvent event) {
-        visitService.scheduleVisit(petSelector.getValue(), dateSelector.getValue(), userSession.getUser());
-        visitsDl.load();
+        dataContext.commit();
+        initNewVisit();
 
-        petSelector.setValue(null);
-        dateSelector.setValue(null);
+        visitsDl.load();
+        petsDl.load();
     }
+
+    private void initNewVisit() {
+        Visit visit = dataContext.merge(dataManager.create(Visit.class));
+        visitDc.setItem(visit);
+        visit.setVeterinarian(visitService.findVetByUser(userSession.getUser()));
+        visit.setHoursSpent(1);
+        visit.setAmount(visitService.calculateAmount(visit));
+    }
+
 
     @Subscribe("visitsCalendar")
     public void onVisitsCalendarCalendarEventClick(Calendar.CalendarEventClickEvent<LocalDateTime> event) {

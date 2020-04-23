@@ -22,6 +22,10 @@ public class VisitServiceBean implements VisitService {
     public BigDecimal calculateAmount(Visit visit) {
         BigDecimal amount = BigDecimal.ZERO;
 
+        if (visit.getVeterinarian() == null) {
+            return amount;
+        }
+
         if (visit.getHoursSpent() != null) {
             amount = amount.add(BigDecimal.valueOf(visit.getHoursSpent()).multiply(visit.getVeterinarian().getHourlyRate()));
         }
@@ -47,11 +51,12 @@ public class VisitServiceBean implements VisitService {
         return dataManager.commit(visit);
     }
 
-    private Veterinarian findVetByUser(User user) {
+    @Override
+    public Veterinarian findVetByUser(User user) {
         return dataManager.load(Veterinarian.class)
                 .query("select v from clinic_Veterinarian v where v.user.id = :userId")
                 .parameter("userId", user.getId())
                 .optional()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElse(null);
     }
 }

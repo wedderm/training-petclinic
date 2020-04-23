@@ -21,7 +21,7 @@ public class VeterinarianRole extends AnnotatedRoleDefinition {
 
     public static final String ROLE_NAME = "veterinarian-access";
 
-    @EntityAccess(entityClass = Visit.class, operations = {EntityOp.READ, EntityOp.UPDATE})
+    @EntityAccess(entityClass = Visit.class, operations = {EntityOp.READ, EntityOp.UPDATE, EntityOp.CREATE})
     @EntityAccess(entityClass = Consumable.class, operations = {EntityOp.READ})
     @EntityAccess(entityClass = Owner.class, operations = {EntityOp.READ})
     @EntityAccess(entityClass = Pet.class, operations = {EntityOp.READ})
@@ -32,9 +32,7 @@ public class VeterinarianRole extends AnnotatedRoleDefinition {
         return super.entityPermissions();
     }
 
-    @EntityAttributeAccess(entityClass = Visit.class,
-            modify = {"consumables", "hoursSpent"},
-            view = {"date", "description", "pet", "veterinarian"})
+    @EntityAttributeAccess(entityClass = Visit.class, modify = {"consumables", "pet", "veterinarian", "date", "description", "hoursSpent"})
     @EntityAttributeAccess(entityClass = Consumable.class,
             view = {"price", "title"})
     @Override
@@ -42,12 +40,7 @@ public class VeterinarianRole extends AnnotatedRoleDefinition {
         return super.entityAttributePermissions();
     }
 
-    @ScreenAccess(screenIds = {
-            "application-clinic",
-            "clinic_Visit.browse",
-            "clinic_Visit.edit",
-            "clinic_Consumable.browse"
-    })
+    @ScreenAccess(screenIds = {"application-clinic", "clinic_Visit.browse", "clinic_Visit.edit", "clinic_Consumable.browse"})
     @Override
     public ScreenPermissionsContainer screenPermissions() {
         return super.screenPermissions();
