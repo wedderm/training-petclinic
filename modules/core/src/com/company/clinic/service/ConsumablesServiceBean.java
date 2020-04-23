@@ -23,6 +23,7 @@ public class ConsumablesServiceBean implements ConsumablesService {
 
     @Override
     public List<Consumable> getUsedConsumables() {
+        //interface for getUsedConsumables
         return dataManager.secure().load(Consumable.class)
                 .view(View.LOCAL)
                 .query("select distinct c from clinic_Visit v join v.consumables c " +

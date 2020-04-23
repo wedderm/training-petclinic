@@ -20,6 +20,7 @@ public class VisitServiceBean implements VisitService {
 
     @Override
     public BigDecimal calculateAmount(Visit visit) {
+        //Calculate amount method
         BigDecimal amount = BigDecimal.ZERO;
 
         if (visit.getHoursSpent() != null) {
