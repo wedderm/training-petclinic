@@ -7,5 +7,6 @@ import com.company.clinic.entity.Consumable;
 @UiDescriptor("consumable-browse.xml")
 @LookupComponent("consumablesTable")
 @LoadDataBeforeShow
+@PrimaryLookupScreen(Consumable.class)
 public class ConsumableBrowse extends StandardLookup<Consumable> {
 }

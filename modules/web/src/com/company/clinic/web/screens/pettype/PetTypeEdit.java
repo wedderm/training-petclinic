@@ -7,5 +7,6 @@ import com.company.clinic.entity.PetType;
 @UiDescriptor("pet-type-edit.xml")
 @EditedEntityContainer("petTypeDc")
 @LoadDataBeforeShow
+@DialogMode(height = "auto", width = "auto", forceDialog = true, closeable = true)
 public class PetTypeEdit extends StandardEditor<PetType> {
 }
