@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head></head>
+<body>
+<#assign owners = Root.bands.Owners />
+
+<h1>Owners</h1>
+
+<table border="1" cellpadding="5" cellspacing="0" width="400">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Phone number</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list owners as owner>
+    <tr>
+        <td>${owner.fields.name}</td>
+        <td>${owner.fields.phonenumber}</td>
+        <td>${owner.fields.email}</td>
+    </tr>
+    </#list>
+    </tbody>
+</table>
+</body>
+</html>

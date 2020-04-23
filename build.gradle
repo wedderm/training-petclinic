@@ -1,5 +1,5 @@
 buildscript {
-    ext.cubaVersion = '7.2.3'
+    ext.cubaVersion = '7.2.4'
     repositories {
         maven {
             url 'https://dl.bintray.com/cuba-platform/main'
@@ -35,6 +35,8 @@ cuba {
 dependencies {
     appComponent("com.haulmont.cuba:cuba-global:$cubaVersion")
     appComponent('com.haulmont.addon.helium:helium-global:0.2.0')
+    appComponent("com.haulmont.reports:reports-global:$cubaVersion")
+    appComponent("com.haulmont.charts:charts-global:$cubaVersion")
 }
 
 def hsql = 'org.hsqldb:hsqldb:2.4.1'
